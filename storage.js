@@ -1,0 +1,15 @@
+const Store={
+g(k,d){try{const v=localStorage.getItem('aegis.'+k);return v===null?d:JSON.parse(v)}catch{return d}},
+s(k,v){try{localStorage.setItem('aegis.'+k,JSON.stringify(v))}catch{}},
+invs(){let i=this.g('inv',null);if(!i){i=[{id:'i1',name:'General',created:new Date().toISOString(),items:[],notes:''}];this.s('inv',i)}return i},
+saveInvs(v){this.s('inv',v)},
+activeId(){return this.g('active','i1')},setActive(id){this.s('active',id)},
+active(){const a=this.invs();return a.find(i=>i.id===this.activeId())||a[0]},
+newInv(name){const a=this.invs(),i={id:'i'+Date.now(),name,created:new Date().toISOString(),items:[],notes:''};a.push(i);this.saveInvs(a);this.setActive(i.id);return i},
+addItem(it){const a=this.invs(),i=a.find(x=>x.id===this.activeId())||a[0];i.items.unshift(it);this.saveInvs(a)},
+rmItem(n){const a=this.invs(),i=a.find(x=>x.id===this.activeId())||a[0];i.items.splice(n,1);this.saveInvs(a)},
+setNotes(t){const a=this.invs(),i=a.find(x=>x.id===this.activeId())||a[0];i.notes=t;this.saveInvs(a)},
+delInv(id){let a=this.invs().filter(i=>i.id!==id);this.saveInvs(a);this.setActive(a[0]?a[0].id:'i1')},
+favs(){return this.g('fav',[])},toggleFav(id){let f=this.favs();f=f.includes(id)?f.filter(x=>x!==id):[...f,id];this.s('fav',f);return f.includes(id)},
+recent(id){this.s('rec',[id,...this.g('rec',[]).filter(x=>x!==id)].slice(0,8))},recents(){return this.g('rec',[])},
+hist(h){this.s('hist',[h,...this.g('hist',[])].slice(0,100))},history(){return this.g('hist',[])}};
