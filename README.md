@@ -1,5 +1,5 @@
 # Aegis Archive
-Static OSINT research workspace. No build step, no dependencies, no API keys required.
+Static OSINT research workspace. No build step, no dependencies, no API keys required. 
 
 ## Files
 index.html, styles.css, app.js, tools.js, storage.js, README.md (all in the repo root).
